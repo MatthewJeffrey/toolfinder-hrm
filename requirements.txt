@@ -1,0 +1,17 @@
+streamlit
+vaderSentiment
+pandas
+matplotlib
+plotly
+gensim
+nltk
+spacy
+textblob
+scikit-learn
+seaborn
+numpy
+openpyxl
+pyobject
+torch
+pyproject.toml
+mtranslate
