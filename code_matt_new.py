@@ -165,12 +165,11 @@ with col2:
             image_url = f"{base_url}{str(predicted_category_number).lower()}.jpg"
             
             # Check if the image exists by trying to display it
+           # Attempt to display the image
             try:
-                st.image(image_url, caption=f"Image for {category}", use_container_width=True)
+                st.image(image_url, caption=f"Image for {predicted_category_number}", use_column_width=True)
             except Exception:
-                st.write(f"No image available for {category}.")
-                
-            image_path_number = os.path.join(image_folder, f"{str(predicted_category_number).lower()}.jpg")
+                st.write("Image not found.")
             
         else:
             # Find the closest match using difflib
