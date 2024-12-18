@@ -162,7 +162,7 @@ with col2:
 
             # Define the path for the image based on the predicted category
              # Define the path for the image based on the category
-            image_url = f"{base_url}{category.capitalize()}.jpg"
+            image_url = f"{base_url}{str(predicted_category_number).lower()}.jpg"
             
             # Check if the image exists by trying to display it
             try:
