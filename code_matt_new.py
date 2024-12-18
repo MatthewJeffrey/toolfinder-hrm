@@ -16,7 +16,7 @@ df_word = pd.read_excel(url, sheet_name='Word', usecols=['Category', 'Relevant W
 df_number = pd.read_excel(url, sheet_name='Number', usecols=['Category', 'Number', 'Bin'])
 
 # Define the path for the images (outside of the conditional blocks)
-image_folder = r"C:\Users\matth\Downloads\Photo"
+image_folder = "Photo"
 
 # Apply custom CSS for futuristic design
 st.markdown(
