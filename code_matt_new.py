@@ -129,7 +129,7 @@ with col1:
                     image_url_word = f"{base_image_url}{category.replace(' ', '%20')}.jpg"
 
                     # Attempt to display the image
-                    st.image(image_url_word, caption=f"Image for {category}", use_column_width=True)
+                    st.image(image_url_word, caption=f"Image for {category}", use_container_width=True)
 
 # Right column: Number-based search
 with col2:
@@ -155,7 +155,7 @@ with col2:
             image_url_number = f"{base_image_url}{predicted_category_number.replace(' ', '%20')}.jpg"
 
             # Attempt to display the image
-            st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_column_width=True)
+            st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_container_width=True)
         else:
             # Find the closest match using difflib
             closest_matches = difflib.get_close_matches(input_number, df_number['Number'].astype(str), n=1, cutoff=0.1)
@@ -174,6 +174,6 @@ with col2:
                 image_url_number = f"{base_image_url}{predicted_category_number.replace(' ', '%20')}.jpg"
 
                 # Attempt to display the image
-                st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_column_width=True)
+                st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_container_width=True)
             else:
                 st.write("Unknown")
