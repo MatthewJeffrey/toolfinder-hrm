@@ -15,8 +15,8 @@ url = 'https://raw.githubusercontent.com/MatthewJeffrey/toolfinder-hrm/main/Data
 df_word = pd.read_excel(url, sheet_name='Word', usecols=['Category', 'Relevant Word', 'Bin Location','Part Number'])
 df_number = pd.read_excel(url, sheet_name='Number', usecols=['Category', 'Number', 'Bin'])
 
-# Define the path for the images (outside of the conditional blocks)
-image_folder = "Photo"
+# Define the base URL for the images in the GitHub repository
+base_url = "https://raw.githubusercontent.com/MatthewJeffrey/toolfinder-hrm/main/Photo/"
 
 # Apply custom CSS for futuristic design
 st.markdown(
@@ -131,10 +131,13 @@ with col1:
                     # Define the path for the image based on the category
                     image_path_word = os.path.join(image_folder, f"{category.lower()}.jpg")
                     
-                    # Check if the image exists and display it
-                    if os.path.exists(image_path_word):
-                        st.image(image_path_word, caption=f"Image for {category}", use_column_width=True)
-                    else:
+                   # Define the path for the image based on the category
+                    image_url = f"{base_url}{category.capitalize()}.jpg"
+                    
+                    # Check if the image exists by trying to display it
+                    try:
+                        st.image(image_url, caption=f"Image for {category}", use_column_width=True)
+                    except Exception:
                         st.write(f"No image available for {category}.")
             else:
                 st.write("No matching categories found.")
