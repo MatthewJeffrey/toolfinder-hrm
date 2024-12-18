@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
-import os
 import difflib
 
 # Set the page layout to wide mode and apply a title
@@ -11,12 +10,11 @@ st.set_page_config(layout="wide", page_title="Tool Finder for Electric Vehicle")
 
 # Load data from Excel file (two sheets: Word and Number)
 url = 'https://raw.githubusercontent.com/MatthewJeffrey/toolfinder-hrm/main/Database%20Master%20(1).xlsx'
-#url = "C:/Users/fwidio/Downloads/Database Master.xlsx"
-df_word = pd.read_excel(url, sheet_name='Word', usecols=['Category', 'Relevant Word', 'Bin Location','Part Number'])
+df_word = pd.read_excel(url, sheet_name='Word', usecols=['Category', 'Relevant Word', 'Bin Location', 'Part Number'])
 df_number = pd.read_excel(url, sheet_name='Number', usecols=['Category', 'Number', 'Bin'])
 
-# Define the base URL for the images in the GitHub repository
-base_url = "https://raw.githubusercontent.com/MatthewJeffrey/toolfinder-hrm/main/Photo/"
+# Define the base URL for images hosted on GitHub
+base_image_url = "https://raw.githubusercontent.com/MatthewJeffrey/toolfinder-hrm/main/Photo/"
 
 # Apply custom CSS for futuristic design
 st.markdown(
@@ -78,7 +76,6 @@ for phrase in df_word['Relevant Word']:
 with col1:
     st.subheader("Word-based Tool Finder")
 
-
     # Input text box
     input_text = st.text_input('Enter a description of the tool (text):', key="text_input")
 
@@ -128,15 +125,14 @@ with col1:
                     part_number_word = part_number_values_word[0] if part_number_values_word.size > 0 else 'Unknown'
                     st.write(f"Part Number: *{part_number_word}*")
                     
-                   # Define the path for the image based on the category
-                   # Define the URL for the image based on the predicted category
-                    image_url = f"{base_url}{str(predicted_category_number).lower()}.jpg"
+                    # Define the URL for the image based on the category
+                    image_url_word = f"{base_image_url}{category.lower()}.jpg"
                     
                     # Attempt to display the image
                     try:
-                        st.image(image_url, caption=f"Image for {predicted_category_number}", use_column_width=True)
+                        st.image(image_url_word, caption=f"Image for {category}", use_container_width=True)
                     except Exception:
-                        st.write("Image not found.")
+                        st.write(f"No image available for {category}.")
             else:
                 st.write("No matching categories found.")
             
@@ -160,17 +156,14 @@ with col2:
             st.write(f'The tool you are looking for based on number might be: **{predicted_category_number}**')
             st.write(f'Bin Location: **{bin_location_number}**')
 
-            # Define the path for the image based on the predicted category
-             # Define the path for the image based on the category
-            image_url = f"{base_url}{str(predicted_category_number).lower()}.jpg"
-            
-            # Check if the image exists by trying to display it
-           # Attempt to display the image
+            # Define the URL for the image based on the predicted category
+            image_url_number = f"{base_image_url}{str(predicted_category_number).lower()}.jpg"
+
+            # Attempt to display the image
             try:
-                st.image(image_url, caption=f"Image for {predicted_category_number}", use_column_width=True)
+                st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_container_width=True)
             except Exception:
                 st.write("Image not found.")
-            
         else:
             # Find the closest match using difflib
             closest_matches = difflib.get_close_matches(input_number, df_number['Number'].astype(str), n=1, cutoff=0.1)
@@ -185,16 +178,13 @@ with col2:
                 st.write(f'The tool you are looking for based on number might be: **{predicted_category_number}**')
                 st.write(f'Bin Location: **{bin_location_number}**')
 
-                # Define the path for the image based on the predicted category
-                # Define the path for the image based on the category
                 # Define the URL for the image based on the predicted category
-                image_url = f"{base_url}{str(predicted_category_number).lower()}.jpg"
-                
+                image_url_number = f"{base_image_url}{str(predicted_category_number).lower()}.jpg"
+
                 # Attempt to display the image
                 try:
-                    st.image(image_url, caption=f"Image for {predicted_category_number}", use_column_width=True)
+                    st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_container_width=True)
                 except Exception:
                     st.write("Image not found.")
-
             else:
                 st.write("Unknown")
