@@ -128,9 +128,6 @@ with col1:
                     part_number_word = part_number_values_word[0] if part_number_values_word.size > 0 else 'Unknown'
                     st.write(f"Part Number: *{part_number_word}*")
                     
-                    # Define the path for the image based on the category
-                    image_path_word = os.path.join(image_folder, f"{category.lower()}.jpg")
-                    
                    # Define the path for the image based on the category
                     image_url = f"{base_url}{category.capitalize()}.jpg"
                     
