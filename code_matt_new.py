@@ -160,13 +160,17 @@ with col2:
             st.write(f'Bin Location: **{bin_location_number}**')
 
             # Define the path for the image based on the predicted category
+             # Define the path for the image based on the category
+            image_url = f"{base_url}{category.capitalize()}.jpg"
+            
+            # Check if the image exists by trying to display it
+            try:
+                st.image(image_url, caption=f"Image for {category}", use_container_width=True)
+            except Exception:
+                st.write(f"No image available for {category}.")
+                
             image_path_number = os.path.join(image_folder, f"{str(predicted_category_number).lower()}.jpg")
-
-            # Check if the image exists and display it
-            if os.path.exists(image_path_number):
-                st.image(image_path_number, caption=f"Image for {predicted_category_number}", use_container_width=True)
-            else:
-                st.write("Image not found.")
+            
         else:
             # Find the closest match using difflib
             closest_matches = difflib.get_close_matches(input_number, df_number['Number'].astype(str), n=1, cutoff=0.1)
