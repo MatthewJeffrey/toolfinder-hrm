@@ -91,7 +91,7 @@ with col1:
             # Prepare the data for training using word-based data
             X_word = df_word['Relevant Word']
             y_word = df_word['Category']
-            
+
             # Create a pipeline with TfidfVectorizer and Naive Bayes model for word data
             model_word = make_pipeline(TfidfVectorizer(ngram_range=(1, 2)), MultinomialNB(alpha=0.1))
             model_word.fit(X_word, y_word)
@@ -99,7 +99,7 @@ with col1:
             # Get probability estimates for all categories
             class_probabilities = model_word.predict_proba([input_text_processed])[0]
             classes = model_word.classes_
-            
+
             # Find the maximum probability
             max_probability = class_probabilities.max()
 
@@ -108,14 +108,14 @@ with col1:
 
             # Find all categories with the maximum probability
             highest_prob_categories = [(cls, prob) for cls, prob in zip(classes, class_probabilities) if prob == max_probability]
-            
+
             if max_probability < threshold:
                 st.write("The tool category is unknown.")
             elif highest_prob_categories:
                 st.write(f"The tool might belong to the following category/categories:")
                 for category, probability in highest_prob_categories:
                     st.write(f"- *{category}*")
-                    
+
                     # Lookup the Bin Location for the category
                     bin_location_values_word = df_word.loc[df_word['Category'] == category, 'Bin Location'].values
                     bin_location_word = bin_location_values_word[0] if bin_location_values_word.size > 0 else 'Unknown'
@@ -124,18 +124,13 @@ with col1:
                     part_number_values_word = df_word.loc[df_word['Category'] == category, 'Part Number'].values
                     part_number_word = part_number_values_word[0] if part_number_values_word.size > 0 else 'Unknown'
                     st.write(f"Part Number: *{part_number_word}*")
-                    
+
                     # Define the URL for the image based on the category
-                    image_url_word = f"{base_image_url}{category.lower()}.jpg"
-                    
+                    image_url_word = f"{base_image_url}{category.replace(' ', '%20')}.jpg"
+
                     # Attempt to display the image
-                    try:
-                        st.image(image_url_word, caption=f"Image for {category}", use_container_width=True)
-                    except Exception:
-                        st.write(f"No image available for {category}.")
-            else:
-                st.write("No matching categories found.")
-            
+                    st.image(image_url_word, caption=f"Image for {category}", use_column_width=True)
+
 # Right column: Number-based search
 with col2:
     st.subheader("Number-based Tool Finder")
@@ -157,13 +152,10 @@ with col2:
             st.write(f'Bin Location: **{bin_location_number}**')
 
             # Define the URL for the image based on the predicted category
-            image_url_number = f"{base_image_url}{str(predicted_category_number).lower()}.jpg"
+            image_url_number = f"{base_image_url}{predicted_category_number.replace(' ', '%20')}.jpg"
 
             # Attempt to display the image
-            try:
-                st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_container_width=True)
-            except Exception:
-                st.write("Image not found.")
+            st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_column_width=True)
         else:
             # Find the closest match using difflib
             closest_matches = difflib.get_close_matches(input_number, df_number['Number'].astype(str), n=1, cutoff=0.1)
@@ -179,12 +171,9 @@ with col2:
                 st.write(f'Bin Location: **{bin_location_number}**')
 
                 # Define the URL for the image based on the predicted category
-                image_url_number = f"{base_image_url}{str(predicted_category_number).lower()}.jpg"
+                image_url_number = f"{base_image_url}{predicted_category_number.replace(' ', '%20')}.jpg"
 
                 # Attempt to display the image
-                try:
-                    st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_container_width=True)
-                except Exception:
-                    st.write("Image not found.")
+                st.image(image_url_number, caption=f"Image for {predicted_category_number}", use_column_width=True)
             else:
                 st.write("Unknown")
