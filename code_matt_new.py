@@ -129,13 +129,14 @@ with col1:
                     st.write(f"Part Number: *{part_number_word}*")
                     
                    # Define the path for the image based on the category
-                    image_url = f"{base_url}{category.capitalize()}.jpg"
+                   # Define the URL for the image based on the predicted category
+                    image_url = f"{base_url}{str(predicted_category_number).lower()}.jpg"
                     
-                    # Check if the image exists by trying to display it
+                    # Attempt to display the image
                     try:
-                        st.image(image_url, caption=f"Image for {category}", use_container_width=True)
+                        st.image(image_url, caption=f"Image for {predicted_category_number}", use_column_width=True)
                     except Exception:
-                        st.write(f"No image available for {category}.")
+                        st.write("Image not found.")
             else:
                 st.write("No matching categories found.")
             
@@ -187,15 +188,14 @@ with col2:
 
                 # Define the path for the image based on the predicted category
                 # Define the path for the image based on the category
-                image_url = f"{base_url}{category.capitalize()}.jpg"
+                # Define the URL for the image based on the predicted category
+                image_url = f"{base_url}{str(predicted_category_number).lower()}.jpg"
                 
-                # Check if the image exists by trying to display it
+                # Attempt to display the image
                 try:
-                    st.image(image_url, caption=f"Image for {category}", use_container_width=True)
+                    st.image(image_url, caption=f"Image for {predicted_category_number}", use_column_width=True)
                 except Exception:
-                    st.write(f"No image available for {category}.")
-                    
-                image_path_number = os.path.join(image_folder, f"{str(predicted_category_number).lower()}.jpg")
+                    st.write("Image not found.")
 
             else:
                 st.write("Unknown")
